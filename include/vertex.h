@@ -26,6 +26,6 @@ Links* create_links(Vertex* vertex);
 void destroy_vertex(Vertex* vertex);
 Vertex* create_vertex(double x, double y, double z);
 void connect_vertex(Vertex* a, Vertex* b);
-void rot_x(Vertex* vertex, double alpha);
+void rot_x(Vertex* vertex, Vertex* origin, double alpha);
 
 #endif /* ! VERTEX_H */

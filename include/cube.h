@@ -3,8 +3,14 @@
 
 #include "../include/vertex.h"
 
-Vertex** create_cube(int size);
-void rot_cube_x(Vertex** cube, double alpha);
-void destroy_cube(Vertex** cube);
+typedef struct cube 
+{
+    Vertex** vertices;
+    Vertex* center;
+} Cube;
+
+Cube* create_cube(int size, Vertex* origin);
+void rot_cube_x(Cube* cube, Vertex* origin, double alpha);
+void destroy_cube(Cube* cube);
 
 #endif /* ! CUBE_H */
