@@ -65,11 +65,11 @@ Cube *create_cube(int size, Point *origin)
 }
 
 // Rotates each vertex of the cube.
-void rot_cube_x(Cube *cube, Point *origin, double alpha)
+void rot_cube_y(Cube *cube, Point *origin, double alpha)
 {
   for (int i = 0; i < 8; i++)
   {
-    rot_x(cube->vertices[i], origin, alpha);
+    rotate_point_y(cube->vertices[i]->position, origin, alpha);
   }
 }
 
