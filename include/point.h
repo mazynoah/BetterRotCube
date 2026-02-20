@@ -1,3 +1,6 @@
+#ifndef POINT_H
+#define POINT_H
+
 typedef enum direction
 {
   LEFT,
@@ -16,5 +19,12 @@ typedef struct point
 Point *create_point(double x, double y, double z);
 Point *add_point(Point *a, Point *b);
 Point *sub_point(Point *a, Point *b);
+Point *dup_point(Point *p);
 Point *add_dir(Point *p, Direction d, double delta);
+Point *project(Point* point);
+Point *rotate_point_y(Point *point, Point *origin, double alpha);
+Point *rotate_point_x(Point *point, Point *origin, double alpha);
+void dump_point(Point *point);
+
+#endif /* POINT_H */
 
