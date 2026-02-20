@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -pedantic -Werror -Wall -Wextra -Wvla
+CFLAGS = -pedantic -Werror -Wall -Wextra -Wvla -I./include/
 LDFLAGS = -lm -lSDL2 -lSDL2_image
 
 SRC_DIR = src
