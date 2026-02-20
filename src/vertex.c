@@ -1,14 +1,14 @@
 #include "../include/vertex.h"
 
-#include <stdlib.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <math.h>
+#include <stdlib.h>
 
 // Creates a link and initializes each component.
-Links* create_links(Vertex* vertex)
+Links *create_links(Vertex *vertex)
 {
-    Links* links = calloc(1, sizeof(Links));
+    Links *links = calloc(1, sizeof(Links));
     if (!links)
         return ERROR("Could not allocate a link."), NULL;
 
@@ -17,18 +17,18 @@ Links* create_links(Vertex* vertex)
 }
 
 // Prepends a link to a list of links.
-static Links* prepend(Links* links, Links* elt)
+static Links *prepend(Links *links, Links *elt)
 {
     if (!elt)
         return ERROR("The element to prepend was NULL."), links;
-    
+
     elt->next = links;
     links = elt;
     return links;
 }
 
 // Destroys a list of links.
-static void destroy_links(Links* links)
+static void destroy_links(Links *links)
 {
     if (links)
     {
@@ -38,16 +38,16 @@ static void destroy_links(Links* links)
 }
 
 // Destroys a vertex and its links.
-void destroy_vertex(Vertex* vertex)
+void destroy_vertex(Vertex *vertex)
 {
     destroy_links(vertex->links);
     free(vertex);
 }
 
 // Creates a vertex and initializes each component.
-Vertex* create_vertex(double x, double y, double z)
+Vertex *create_vertex(double x, double y, double z)
 {
-    Vertex* vertex = calloc(1, sizeof(Vertex));
+    Vertex *vertex = calloc(1, sizeof(Vertex));
     if (!vertex)
         return ERROR("Could not allocate a vertex."), NULL;
 
@@ -58,7 +58,7 @@ Vertex* create_vertex(double x, double y, double z)
 }
 
 // Creates a link in one way between to vertices.
-static void link(Vertex* a, Vertex* b)
+static void link(Vertex *a, Vertex *b)
 {
     if (!a || !b)
     {
@@ -69,21 +69,22 @@ static void link(Vertex* a, Vertex* b)
 }
 
 // Creates a link in both ways between to vertices.
-void connect_vertex(Vertex* a, Vertex* b)
+void connect_vertex(Vertex *a, Vertex *b)
 {
     link(a, b);
     link(b, a);
 }
 
-// Rotates a vertex by an angle alpha along the Y axis according to the center of the space.
-void rot_x(Vertex* vertex, Vertex* origin, double alpha)
+// Rotates a vertex by an angle alpha along the Y axis according to the center
+// of the space.
+void rot_x(Vertex *vertex, Vertex *origin, double alpha)
 {
     double x = vertex->x - origin->x;
     double y = vertex->y - origin->y;
     double z = vertex->z - origin->z;
 
-    double new_x = x*cos(alpha) - z*sin(alpha);
-    double new_z = x*sin(alpha) + z*cos(alpha);
+    double new_x = x * cos(alpha) - z * sin(alpha);
+    double new_z = x * sin(alpha) + z * cos(alpha);
 
     vertex->x = new_x + origin->x;
     vertex->y = y + origin->y;

@@ -1,8 +1,8 @@
 #include "../include/visual.h"
 
-Vertex* handle_args(int argc, char** argv)
+Vertex *handle_args(int argc, char **argv)
 {
-    Vertex* origin = calloc(1, sizeof(Vertex));
+    Vertex *origin = calloc(1, sizeof(Vertex));
     for (int i = 1; i < argc; i++)
     {
         if (!strcmp(argv[i], "-x"))
@@ -15,32 +15,32 @@ Vertex* handle_args(int argc, char** argv)
     return origin;
 }
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     if (sdl_init())
         return 1;
-    
+
     // Creating the window and renderer.
-    SDL_Window* window = create_window(WIDTH, HEIGHT);
-    SDL_Renderer* renderer = create_renderer(window);
+    SDL_Window *window = create_window(WIDTH, HEIGHT);
+    SDL_Renderer *renderer = create_renderer(window);
 
     unsigned running = 1;
     SDL_Event event;
 
     // Creating the rotating cube.
-    Vertex* origin = handle_args(argc, argv);
-    Cube* cube = create_cube(CUBE_SIZE, origin);
+    Vertex *origin = handle_args(argc, argv);
+    Cube *cube = create_cube(CUBE_SIZE, origin);
 
     // Rotating speed.
     double alpha = 0.025;
 
     // Window loop
-    while (running) 
+    while (running)
     {
-        while (SDL_PollEvent(&event)) 
+        while (SDL_PollEvent(&event))
         {
             // If the window gets terminated.
-            if (event.type == SDL_QUIT) 
+            if (event.type == SDL_QUIT)
             {
                 // Exit the loop;
                 running = 0;
@@ -58,9 +58,9 @@ int main(int argc, char** argv)
         SDL_RenderPresent(renderer);
 
         // 60 frames a second.
-        SDL_Delay(1000/60);
+        SDL_Delay(1000 / 60);
     }
-    
+
     // Properly quits sdl.
     sdl_quit(renderer, window);
 
