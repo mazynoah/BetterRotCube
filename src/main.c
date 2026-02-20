@@ -1,4 +1,5 @@
 #include "visual.h"
+#include "camera.h"
 
 Point *handle_args(int argc, char **argv)
 {
@@ -37,9 +38,13 @@ int main(int argc, char **argv)
   // Movement speed.
   double delta = 2;
 
+  SDL_SetRelativeMouseMode(SDL_TRUE);
+
   // Window loop
   while (running)
   {
+    double mouse_delta_x, mouse_delta_y = 0.0; 
+
     while (SDL_PollEvent(&event))
     {
       switch (event.type)
@@ -49,6 +54,16 @@ int main(int argc, char **argv)
           // Exit the loop;
           running = 0;
           break;
+        case SDL_MOUSEMOTION:
+        {
+          mouse_delta_x = event.motion.xrel;
+          mouse_delta_y = event.motion.yrel;
+
+          if (mouse_delta_x != 0)
+            rotate_camera_y(alpha, mouse_delta_x/10);
+          if (mouse_delta_y != 0)
+            rotate_camera_x(alpha, -mouse_delta_y/10);
+        }
         default:
           break;
       }
@@ -85,7 +100,7 @@ int main(int argc, char **argv)
 
     // Draws the rotated cube in red.
     SDL_SetRenderDrawColor(renderer, RED, 255);
-    rot_cube_x(cube, cube->position, alpha);
+    rot_cube_y(cube, cube->position, alpha);
     draw_cube(renderer, cube);
     SDL_RenderPresent(renderer);
 
