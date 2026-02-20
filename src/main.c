@@ -1,8 +1,23 @@
 #include "../include/visual.h"
 
+Vertex* handle_args(int argc, char** argv)
+{
+    Vertex* origin = calloc(1, sizeof(Vertex));
+    for (int i = 1; i < argc; i++)
+    {
+        if (!strcmp(argv[i], "-x"))
+            origin->x = atoi(argv[++i]);
+        else if (!strcmp(argv[i], "-y"))
+            origin->y = atoi(argv[++i]);
+        else if (!strcmp(argv[i], "-z"))
+            origin->z = atoi(argv[++i]);
+    }
+    return origin;
+}
+
 int main(int argc, char** argv)
 {
-    if (argc < 1 || !argv || sdl_init())
+    if (sdl_init())
         return 1;
     
     // Creating the window and renderer.
@@ -13,7 +28,8 @@ int main(int argc, char** argv)
     SDL_Event event;
 
     // Creating the rotating cube.
-    Vertex** cube = create_cube(CUBE_SIZE);
+    Vertex* origin = handle_args(argc, argv);
+    Cube* cube = create_cube(CUBE_SIZE, origin);
 
     // Rotating speed.
     double alpha = 0.025;
@@ -37,7 +53,7 @@ int main(int argc, char** argv)
 
         // Draws the rotated cube in red.
         SDL_SetRenderDrawColor(renderer, RED, 255);
-        rot_cube_x(cube, alpha);
+        rot_cube_x(cube, cube->center, alpha);
         draw_cube(renderer, cube);
         SDL_RenderPresent(renderer);
 
@@ -50,6 +66,7 @@ int main(int argc, char** argv)
 
     // Frees everything
     destroy_cube(cube);
+    destroy_vertex(origin);
 
     return 0;
 }

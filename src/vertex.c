@@ -76,10 +76,16 @@ void connect_vertex(Vertex* a, Vertex* b)
 }
 
 // Rotates a vertex by an angle alpha along the Y axis according to the center of the space.
-void rot_x(Vertex* vertex, double alpha)
+void rot_x(Vertex* vertex, Vertex* origin, double alpha)
 {
-    double x = vertex->x;
-    double z = vertex->z;
-    vertex->x = x*cos(alpha) + z*sin(alpha);
-    vertex->z = -x*sin(alpha) + z*cos(alpha);
+    double x = vertex->x - origin->x;
+    double y = vertex->y - origin->y;
+    double z = vertex->z - origin->z;
+
+    double new_x = x*cos(alpha) - z*sin(alpha);
+    double new_z = x*sin(alpha) + z*cos(alpha);
+
+    vertex->x = new_x + origin->x;
+    vertex->y = y + origin->y;
+    vertex->z = new_z + origin->z;
 }

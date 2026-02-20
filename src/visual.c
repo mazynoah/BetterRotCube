@@ -19,10 +19,10 @@ void draw_links(SDL_Renderer* renderer, Vertex* vertex_a)
 }
 
 // Draws each links of an array of vertices onto a renderer.
-void draw_cube(SDL_Renderer* renderer, Vertex** cube)
+void draw_cube(SDL_Renderer* renderer, Cube* cube)
 {
     for (int i = 0; i < 8; i++)
     {
-        draw_links(renderer, cube[i]);
+        draw_links(renderer, cube->vertices[i]);
     }
 }
