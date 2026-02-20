@@ -24,3 +24,4 @@ cd RotCube && make
 - WASD to move around.
 - Space and Left Control to respectively go up and down.
 - Left Shift to go faster.
+- Mouse movements as camera rotation.
