@@ -71,6 +71,22 @@ int main(int argc, char **argv)
     }
 
     const Uint8 *state = SDL_GetKeyboardState(NULL);
+    
+    if (state[SDL_SCANCODE_J]) {
+      SDL_Surface *john_surface = SDL_LoadBMP("john.bmp");
+        
+      if (john_surface) {
+        SDL_Texture *john_texture = SDL_CreateTextureFromSurface(renderer, john_surface);
+        
+        SDL_RenderCopy(renderer, john_texture, NULL, NULL); 
+        SDL_RenderPresent(renderer);
+        
+        SDL_DestroyTexture(john_texture);
+        SDL_FreeSurface(john_surface);
+      } else {
+        LOG("Could not open John: %s\n", SDL_GetError());
+      }
+    }
 
     if (state[SDL_SCANCODE_A] || state[SDL_SCANCODE_LEFT])
       move_camera(LEFT, delta);
