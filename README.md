@@ -1,10 +1,10 @@
-# Rotating cube
-This project is the beginning of (I hope) a 3D renderer made in C and SDL, for now it only renders a rotating cube (no faces) and handles user input to move the camera around.
+# Better Rotating cube
+This project is a cube
 
 ## Installation
 ```sh
-git clone https://github.com/chalettt/RotCube.git
-cd RotCube && make
+git clone https://github.com/mazynoah/BetterRotCube.git
+cd BetterRotCube && make
 ```
 
 ## Usage
@@ -25,3 +25,4 @@ cd RotCube && make
 - Space and Left Control to respectively go up and down.
 - Left Shift to go faster.
 - Mouse movements as camera rotation.
+- J for John
