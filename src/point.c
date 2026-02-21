@@ -38,6 +38,15 @@ Point *sub_point(Point *a, Point *b)
   return a;
 }
 
+Point *scalar_product(Point *p, double scalar)
+{
+  p->x *= scalar;
+  p->y *= scalar;
+  p->z *= scalar;
+
+  return p;
+}
+
 Point *dup_point(Point *p)
 {
   return create_point(p->x, p->y, p->z);
@@ -110,8 +119,24 @@ Point* project(Point* point)
   return create_point(projection_x, projection_y, z);
 }
 
-// Rotates a point by an angle alpha along the Y axis according to the center
-// of the space.
+// Rotates a point by an angle alpha along the Z axis according to the origin point.
+Point *rotate_point_z(Point *point, Point *origin, double alpha)
+{
+  double x = point->x - origin->x;
+  double y = point->y - origin->y;
+  double z = point->z - origin->z;
+
+  double new_x = x * cos(alpha) - y * sin(alpha);
+  double new_y = x * sin(alpha) + y * cos(alpha);
+
+  point->x = new_x + origin->x;
+  point->y = new_y + origin->y;
+  point->z = z + origin->z;
+
+  return point;
+}
+
+// Rotates a point by an angle alpha along the Y axis according to the origin point.
 Point *rotate_point_y(Point *point, Point *origin, double alpha)
 {
   double x = point->x - origin->x;
