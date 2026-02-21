@@ -45,7 +45,7 @@ void move_camera(Direction dir, double delta) {
         case RIGHT:
             move = *scalar_product(&right, delta);
             break;
-        case UP | DOWN:
+        case DOWN: case UP:
             add_dir(camera->look_ahead, dir, delta);
             add_dir(camera->position, dir, delta);
             return;
