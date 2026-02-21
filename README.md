@@ -13,9 +13,9 @@ cd BetterRotCube && make
 ```
 
 ### Flags
--  -x Change the x coordinate of the origin
--  -y Change the y coordinate of the origin
--  -z Change the z coordinate of the origin
+-  -x Changes the x coordinate of the cube origin.
+-  -y Changes the y coordinate of the cube origin.
+-  -z Changes the z coordinate of the cube origin.
 ```sh
 ./cube -x 67 -y 67 -z 67
 ```

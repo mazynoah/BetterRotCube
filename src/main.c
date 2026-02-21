@@ -96,6 +96,9 @@ int main(int argc, char **argv)
       }
     }
 
+    if (state[SDL_SCANCODE_ESCAPE])
+      SDL_SetRelativeMouseMode(SDL_FALSE);
+
     if (state[SDL_SCANCODE_A] || state[SDL_SCANCODE_LEFT])
       move_camera(LEFT, delta);
 
