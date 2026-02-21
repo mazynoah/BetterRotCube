@@ -1,12 +1,10 @@
 #include "camera.h"
 #include "visual.h"
 
-Point *handle_args(int argc, char **argv)
-{
+Point *handle_args(int argc, char **argv) {
     Point *origin = malloc(sizeof(Point));
     origin->z = 500;
-    for (int i = 1; i < argc; i++)
-    {
+    for (int i = 1; i < argc; i++) {
         if (!strcmp(argv[i], "-x"))
             origin->x = atoi(argv[++i]);
         else if (!strcmp(argv[i], "-y"))
@@ -17,8 +15,7 @@ Point *handle_args(int argc, char **argv)
     return origin;
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     if (sdl_init())
         return 1;
 
@@ -42,58 +39,55 @@ int main(int argc, char **argv)
     SDL_SetRelativeMouseMode(SDL_TRUE);
 
     // Window loop
-    while (running)
-    {
+    while (running) {
         double mouse_delta_x, mouse_delta_y = 0.0;
 
-        while (SDL_PollEvent(&event))
-        {
-            switch (event.type)
-            {
-            // If the window gets terminated.
-            case SDL_QUIT:
-                // Exit the loop;
-                running = 0;
-                break;
-            case SDL_MOUSEMOTION: {
-                mouse_delta_x = event.motion.xrel;
-                mouse_delta_y = event.motion.yrel;
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                // If the window gets terminated.
+                case SDL_QUIT:
+                    // Exit the loop;
+                    running = 0;
+                    break;
+                case SDL_MOUSEMOTION: {
+                    mouse_delta_x = event.motion.xrel;
+                    mouse_delta_y = event.motion.yrel;
 
-                if (mouse_delta_x != 0)
-                    rotate_camera_y(alpha, mouse_delta_x / 10);
-                if (mouse_delta_y != 0)
-                    rotate_camera_x(alpha, -mouse_delta_y / 10);
-                break;
-            }
-            case SDL_MOUSEBUTTONDOWN:
-                SDL_SetRelativeMouseMode(SDL_TRUE);
-                break;
-            default:
-                break;
+                    if (mouse_delta_x != 0)
+                        rotate_camera_y(alpha, mouse_delta_x / 10);
+                    if (mouse_delta_y != 0)
+                        rotate_camera_x(alpha, -mouse_delta_y / 10);
+                    break;
+                }
+                case SDL_MOUSEBUTTONDOWN:
+                    SDL_SetRelativeMouseMode(SDL_TRUE);
+                    break;
+                default:
+                    break;
             }
         }
 
         const Uint8 *state = SDL_GetKeyboardState(NULL);
-    
-    if (state[SDL_SCANCODE_ESCAPE]) {
-      SDL_SetRelativeMouseMode(SDL_FALSE);
-    }
-    
-    if (state[SDL_SCANCODE_J]) {
-      SDL_Surface *john_surface = SDL_LoadBMP("john.bmp");
-        
-      if (john_surface) {
-        SDL_Texture *john_texture = SDL_CreateTextureFromSurface(renderer, john_surface);
-        
-        SDL_RenderCopy(renderer, john_texture, NULL, NULL); 
-        SDL_RenderPresent(renderer);
-        
-        SDL_DestroyTexture(john_texture);
-        SDL_FreeSurface(john_surface);
-      } else {
-        LOG("Could not open John not an error: %s\n", SDL_GetError());
-      }
-    }
+
+        if (state[SDL_SCANCODE_ESCAPE]) {
+            SDL_SetRelativeMouseMode(SDL_FALSE);
+        }
+
+        if (state[SDL_SCANCODE_J]) {
+            SDL_Surface *john_surface = SDL_LoadBMP("john.bmp");
+
+            if (john_surface) {
+                SDL_Texture *john_texture = SDL_CreateTextureFromSurface(renderer, john_surface);
+
+                SDL_RenderCopy(renderer, john_texture, NULL, NULL);
+                SDL_RenderPresent(renderer);
+
+                SDL_DestroyTexture(john_texture);
+                SDL_FreeSurface(john_surface);
+            } else {
+                LOG("Could not open John not an error: %s\n", SDL_GetError());
+            }
+        }
 
         if (state[SDL_SCANCODE_ESCAPE])
             SDL_SetRelativeMouseMode(SDL_FALSE);
@@ -130,9 +124,9 @@ int main(int argc, char **argv)
         draw_cube(renderer, cube);
         SDL_RenderPresent(renderer);
 
-    // 60 frames a second.
-    SDL_Delay(1000 / 175);
-  }
+        // 60 frames a second.
+        SDL_Delay(1000 / 175);
+    }
 
     // Properly quits sdl.
     sdl_quit(renderer, window);

@@ -13,7 +13,7 @@ typedef struct camera
 
 extern Camera *camera;
 
-Point *move_camera(Direction d, double delta);
+void move_camera(Direction dir, double delta);
 Point *rotate_camera_x(double alpha, double delta);
 Point *rotate_camera_y(double alpha, double delta);
 

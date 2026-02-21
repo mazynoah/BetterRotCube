@@ -8,8 +8,7 @@
 
 Camera *camera = NULL;
 
-Point *init_camera(double x, double y, double z)
-{
+Point *init_camera(double x, double y, double z) {
     camera = malloc(sizeof(Camera));
     if (!camera)
         return ERROR("Camera initialization failed."), NULL;
@@ -22,8 +21,7 @@ Point *init_camera(double x, double y, double z)
     return camera->position;
 }
 
-Point get_forward()
-{
+Point get_forward() {
     Point forward;
 
     forward.x = cos(camera->pitch) * sin(camera->yaw);
@@ -33,51 +31,46 @@ Point get_forward()
     return forward;
 }
 
-Point *move_camera(Direction d, double delta)
-{
+void move_camera(Direction dir, double delta) {
     Point forward = get_forward();
     forward = *vector_normalize(&forward);
-    Point world_up = { 0, 1, 0 };
+    Point world_up = {0, 1, 0};
     Point right = *vector_normalize(vector_cross(&world_up, &forward));
-    Point up = *vector_normalize(vector_cross(&forward, &right));
     Point move;
 
-    switch (d)
-    {
-    case LEFT:
-        move = *scalar_product(&right, -delta);
-        break;
-    case RIGHT:
-        move = *scalar_product(&right, delta);
-        break;
-    case UP:
-        move = *scalar_product(&up, delta);
-        break;
-    case DOWN:
-        move = *scalar_product(&up, -delta);
-        break;
-    case FRONT:
-        move = *scalar_product(&forward, delta);
-        break;
-    case BACK:
-        move = *scalar_product(&forward, -delta);
-        break;
+    switch (dir) {
+        case LEFT:
+            move = *scalar_product(&right, -delta);
+            break;
+        case RIGHT:
+            move = *scalar_product(&right, delta);
+            break;
+        case UP | DOWN:
+            add_dir(camera->look_ahead, dir, delta);
+            add_dir(camera->position, dir, delta);
+            return;
+        case FRONT:
+            move = *scalar_product(&forward, delta);
+            break;
+        case BACK:
+            move = *scalar_product(&forward, -delta);
+            break;
+        default: 
+            WARN("Received invalid camera direction.");
+            return;
     }
 
     add_point(camera->position, &move);
     add_point(camera->look_ahead, &move);
-
-    return NULL;
 }
 
-Point *rotate_camera_x(double alpha, double delta)
-{
+Point *rotate_camera_x(double alpha, double delta) {
     camera->pitch += alpha * delta;
 
     camera->pitch =
-        camera->pitch > M_PI / 2 - 0.01 ? M_PI / 2 + 0.01 : camera->pitch;
+            camera->pitch > M_PI / 2 - 0.01 ? M_PI / 2 + 0.01 : camera->pitch;
     camera->pitch =
-        camera->pitch < -M_PI / 2 + 0.01 ? -M_PI / 2 + 0.01 : camera->pitch;
+            camera->pitch < -M_PI / 2 + 0.01 ? -M_PI / 2 + 0.01 : camera->pitch;
 
     Point forward = get_forward();
 
@@ -88,8 +81,7 @@ Point *rotate_camera_x(double alpha, double delta)
     return camera->look_ahead;
 }
 
-Point *rotate_camera_y(double alpha, double delta)
-{
+Point *rotate_camera_y(double alpha, double delta) {
     camera->yaw += alpha * delta;
 
     Point forward = get_forward();
