@@ -1,5 +1,4 @@
 #include "visual.h"
-
 #include "point.h"
 
 // Draws each links of a vertex onto a renderer.
@@ -33,9 +32,9 @@ void draw_links(SDL_Renderer *renderer, Vertex *vertex_a)
 // Draws each links of an array of vertices onto a renderer.
 void draw_cube(SDL_Renderer *renderer, Cube *cube)
 {
-    SDL_SetRenderDrawColor(renderer, RED, 255);
-    for (int i = 0; i < 8; i++)
-    {
-        draw_links(renderer, cube->vertices[i]);
-    }
+  SDL_SetRenderDrawColor(renderer, GREEN, 255);
+  for (int i = 0; i < 8; i++)
+  {
+    draw_links(renderer, cube->vertices[i]);
+  }
 }
