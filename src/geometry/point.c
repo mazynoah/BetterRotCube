@@ -79,6 +79,7 @@ Point *add_dir(Point *p, Direction d, double delta)
     return p;
 }
 
+// TODO: Do not use the heap.
 Point *project(Point *point)
 {
     double fov = 90.0;
