@@ -1,5 +1,5 @@
 # 3D Renderer
-This project is the beginning of, hopefully, a full 3D renderer made in C and SDL, for now it only renders a wireframe rotating cube and handles user input to move the camera around.
+This project is the beginning of, hopefully, a full 3D renderer made in C and SDL, for now it only renders a rotating cube and handles user input to move the camera around.
 
 ## Installation
 ```sh
