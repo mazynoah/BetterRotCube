@@ -1,3 +1,4 @@
+#include "geometry/cube.h"
 #include "rendering/camera.h"
 #include "rendering/visual.h"
 

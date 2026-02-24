@@ -4,8 +4,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "utils/debug.h"
-
 /**
  * @brief Window width.
  */
@@ -46,7 +44,7 @@
  *
  * @return The error code, 0 on success.
  */
-int sdl_init();
+int sdl_init(void);
 
 /**
  * @brief Quits SDL.

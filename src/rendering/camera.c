@@ -1,9 +1,10 @@
 #include "rendering/camera.h"
-#include "utils/debug.h"
-#include "geometry/vector.h"
 
 #include <math.h>
 #include <stdlib.h>
+
+#include "geometry/vector.h"
+#include "utils/debug.h"
 
 Camera *camera = NULL;
 
@@ -21,7 +22,7 @@ Camera *init_camera(double x, double y, double z)
     return camera;
 }
 
-Point get_forward()
+static Point get_forward(void)
 {
     Point forward;
 

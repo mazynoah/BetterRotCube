@@ -1,5 +1,7 @@
 #include "geometry/cube.h"
 
+#include "utils/debug.h"
+
 Cube *create_cube(int size, Point *origin)
 {
     // Creates each point.

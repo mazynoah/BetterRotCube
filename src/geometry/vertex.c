@@ -1,9 +1,10 @@
 #include "geometry/vertex.h"
-#include "rendering/sdl_manager.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <stdlib.h>
+
+#include "utils/debug.h"
 
 static Links *create_links(Vertex *vertex)
 {

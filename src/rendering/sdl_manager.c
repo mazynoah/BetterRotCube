@@ -1,10 +1,11 @@
 #include "rendering/sdl_manager.h"
-#include "utils/debug.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-int sdl_init()
+#include "utils/debug.h"
+
+int sdl_init(void)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
