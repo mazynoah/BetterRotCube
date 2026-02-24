@@ -1,11 +1,12 @@
 #include "geometry/point.h"
-#include "rendering/camera.h"
-#include "utils/debug.h"
-#include "rendering/sdl_manager.h"
-#include "geometry/vector.h"
 
 #include <math.h>
 #include <stdlib.h>
+
+#include "geometry/vector.h"
+#include "rendering/camera.h"
+#include "rendering/sdl_manager.h"
+#include "utils/debug.h"
 
 Point *create_point(double x, double y, double z)
 {
@@ -79,43 +80,33 @@ Point *add_dir(Point *p, Direction d, double delta)
     return p;
 }
 
-// TODO: Do not use the heap.
 Point *project(Point *point)
 {
-    double fov = 90.0;
-    double d = WIDTH / 2 * tan(fov / 2);
+    double fov = 90.0 * M_PI / 180.0;
+    double d = WIDTH / 2.0 / tan(fov / 2);
 
     // HANK DO NOT ABREVIATE CAMERA POSITION TO CP!
-    Point *cp = dup_point(camera->position);
-    Point *cl = dup_point(camera->look_ahead);
+    Point cp = *camera->position;
+    Point cl = *camera->look_ahead;
+    Point word_up = { 0, 1, 0 };
 
-    Point *forward = vector_normalize(sub_point(cl, cp));
-    Point *word_up = create_point(0, 1, 0);
-    Point *cross = vector_cross(word_up, forward);
-    Point *right = vector_normalize(cross);
-    Point *up = vector_cross(forward, right);
+    Point forward = vector_normalize(sub_point(&cl, &cp));
+    Point cross = vector_cross(&word_up, &forward);
+    Point right = vector_normalize(&cross);
+    Point up = vector_cross(&forward, &right);
 
-    Point *p = dup_point(point);
-    Point *rel = sub_point(p, cp);
+    Point rel = *point;
+    sub_point(&rel, &cp);
 
-    double x = dot_product(rel, right);
-    double y = dot_product(rel, up);
-    double z = dot_product(rel, forward);
-
-    free(cp);
-    free(cl);
-    free(forward);
-    free(word_up);
-    free(cross);
-    free(right);
-    free(up);
-    free(p);
+    double x = dot_product(&rel, &right);
+    double y = dot_product(&rel, &up);
+    double z = dot_product(&rel, &forward);
 
     if (z < 0.01)
         return NULL;
 
-    double projection_x = d * x / z + WIDTH / 2;
-    double projection_y = HEIGHT / 2 - d * y / z;
+    double projection_x = d * x / z + WIDTH / 2.0;
+    double projection_y = HEIGHT / 2.0 - d * y / z;
 
     return create_point(projection_x, projection_y, z);
 }

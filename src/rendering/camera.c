@@ -22,7 +22,7 @@ Camera *init_camera(double x, double y, double z)
     return camera;
 }
 
-static Point get_forward(void)
+Point get_forward(void)
 {
     Point forward;
 
@@ -35,10 +35,14 @@ static Point get_forward(void)
 
 Point *move_camera(Direction d, double delta)
 {
-    Point forward = get_forward();
-    forward = *vector_normalize(&forward);
     Point world_up = { 0, 1, 0 };
-    Point right = *vector_normalize(vector_cross(&world_up, &forward));
+    Point right = { 0, 1, 0 };
+    Point forward = get_forward();
+
+    forward = vector_normalize(&forward);
+    right = vector_cross(&right, &forward);
+    right = vector_normalize(&right);
+
     Point move;
 
     switch (d)

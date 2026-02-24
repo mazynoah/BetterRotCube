@@ -5,6 +5,8 @@
 
 #include "geometry/point.h"
 #include "geometry/triangle.h"
+#include "geometry/vector.h"
+#include "rendering/camera.h"
 
 void draw_links(SDL_Renderer *renderer, Vertex *vertex_a)
 {
@@ -39,12 +41,7 @@ void draw_triangle(SDL_Renderer *renderer, Triangle *triangle)
     Point *projection_b = project(triangle->points[1]);
     Point *projection_c = project(triangle->points[2]);
     if (!projection_a || !projection_b || !projection_c)
-    {
-        free(projection_a);
-        free(projection_b);
-        free(projection_c);
-        return;
-    }
+        goto exit;
 
     SDL_Vertex vertices[3] = {
         { { projection_a->x, projection_a->y }, { RED, 255 }, { 0.0f, 0.0f } },
@@ -53,6 +50,11 @@ void draw_triangle(SDL_Renderer *renderer, Triangle *triangle)
     };
 
     SDL_RenderGeometry(renderer, NULL, vertices, 3, NULL, 0);
+
+exit:
+    free(projection_a);
+    free(projection_b);
+    free(projection_c);
 }
 
 void draw_cube(SDL_Renderer *renderer, Cube *cube)
@@ -75,7 +77,12 @@ void draw_cube(SDL_Renderer *renderer, Cube *cube)
             create_triangle(cube->vertices[triangles[i]]->position,
                             cube->vertices[triangles[i + 1]]->position,
                             cube->vertices[triangles[i + 2]]->position);
-        draw_triangle(renderer, t);
+        Point cp = *camera->position;
+        sub_point(&cp, t->points[0]);
+        if (dot_product(&cp, t->normal) < 0)
+        {
+            draw_triangle(renderer, t);
+        }
         destroy_triangle(t);
     }
 

@@ -4,7 +4,8 @@
 #include "geometry/point.h"
 
 /**
- * @brief Camera structure to store its position, look_ahead point, yaw and pitch angles.
+ * @brief Camera structure to store its position, look_ahead point, yaw and
+ * pitch angles.
  */
 typedef struct camera
 {
@@ -55,5 +56,12 @@ Point *rotate_camera_x(double alpha, double delta);
  * @return The look ahead's new position.
  */
 Point *rotate_camera_y(double alpha, double delta);
+
+/**
+ * @brief Computes the forward vector of the camera.
+ *
+ * @return The forward vector.
+ */
+Point get_forward(void);
 
 #endif /* CAMERA_H */

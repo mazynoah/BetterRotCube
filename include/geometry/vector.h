@@ -9,7 +9,7 @@
  * @param p The vector to normalize.
  * @return The normalized vector.
  */
-Point *vector_normalize(Point *p);
+Point vector_normalize(Point *p);
 
 /**
  * @brief Computes the cross product of two vectors.
@@ -18,7 +18,7 @@ Point *vector_normalize(Point *p);
  * @param b The second vector.
  * @return The cross product.
  */
-Point *vector_cross(Point *a, Point *b);
+Point vector_cross(Point *a, Point *b);
 
 /**
  * @brief Computes the dot product of two vectors.
