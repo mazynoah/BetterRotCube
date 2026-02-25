@@ -1,14 +1,15 @@
-#include "camera.h"
+#include "rendering/camera.h"
 
 #include <math.h>
 #include <stdlib.h>
 
-#include "debug.h"
-#include "vector.h"
+#include "geometry/vector.h"
+#include "utils/debug.h"
 
 Camera *camera = NULL;
 
-Point *init_camera(double x, double y, double z) {
+Camera *init_camera(double x, double y, double z)
+{
     camera = malloc(sizeof(Camera));
     if (!camera)
         return ERROR("Camera initialization failed."), NULL;
@@ -18,7 +19,7 @@ Point *init_camera(double x, double y, double z) {
     camera->yaw = 0.0;
     camera->pitch = 0.0;
 
-    return camera->position;
+    return camera;
 }
 
 Point get_forward() {
@@ -31,11 +32,15 @@ Point get_forward() {
     return forward;
 }
 
-void move_camera(Direction dir, double delta) {
+Point *move_camera(Direction dir, double delta) {
+    Point world_up = { 0, 1, 0 };
+    Point right = { 0, 1, 0 };
     Point forward = get_forward();
-    forward = *vector_normalize(&forward);
-    Point world_up = {0, 1, 0};
-    Point right = *vector_normalize(vector_cross(&world_up, &forward));
+
+    forward = vector_normalize(&forward);
+    right = vector_cross(&right, &forward);
+    right = vector_normalize(&right);
+
     Point move;
 
     switch (dir) {
@@ -48,7 +53,7 @@ void move_camera(Direction dir, double delta) {
         case DOWN: case UP:
             add_dir(camera->look_ahead, dir, delta);
             add_dir(camera->position, dir, delta);
-            return;
+            return NULL;
         case FRONT:
             move = *scalar_product(&forward, delta);
             break;
@@ -57,11 +62,13 @@ void move_camera(Direction dir, double delta) {
             break;
         default: 
             WARN("Received invalid camera direction.");
-            return;
+            return NULL;
     }
 
     add_point(camera->position, &move);
     add_point(camera->look_ahead, &move);
+
+    return NULL;
 }
 
 Point *rotate_camera_x(double alpha, double delta) {

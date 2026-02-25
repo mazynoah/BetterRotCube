@@ -1,8 +1,12 @@
-#include "point.h"
-#include "debug.h"
-#include "sdl_manager.h"
-#include "camera.h"
-#include "vector.h"
+#include "geometry/point.h"
+
+#include <math.h>
+#include <stdlib.h>
+
+#include "geometry/vector.h"
+#include "rendering/camera.h"
+#include "rendering/sdl_manager.h"
+#include "utils/debug.h"
 
 #include <stdlib.h>
 #include <math.h>
@@ -187,7 +191,25 @@ Point *project(Point *point) {
                         projected_z_dot_product_result);
 }
 
-// Rotates a point by an angle alpha along the Y axis according to the center
+// Rotates a point by an angle alpha along the Z axis according to the origin
+// point.
+Point *rotate_point_z(Point *point, Point *origin, double alpha) {
+    double x = point->x - origin->x;
+    double y = point->y - origin->y;
+    double z = point->z - origin->z;
+
+    double new_x = x * cos(alpha) - y * sin(alpha);
+    double new_y = x * sin(alpha) + y * cos(alpha);
+
+    point->x = new_x + origin->x;
+    point->y = new_y + origin->y;
+    point->z = z + origin->z;
+
+    return point;
+}
+
+// Rotates a point by an angle alpha along the Y axis according to the origin
+// point.
 Point *rotate_point_y(Point *point, Point *origin, double alpha) {
     double translation_x_difference = point->x - origin->x;
     double translation_y_difference = point->y - origin->y;
@@ -212,23 +234,8 @@ Point *rotate_point_y(Point *point, Point *origin, double alpha) {
     return point;
 }
 
-// Rotates a point by an angle alpha along the Z axis according to the origin
+// Rotates a point by an angle alpha along the X axis according to the origin
 // point.
-Point *rotate_point_z(Point *point, Point *origin, double alpha) {
-    double x = point->x - origin->x;
-    double y = point->y - origin->y;
-    double z = point->z - origin->z;
-
-    double new_x = x * cos(alpha) - y * sin(alpha);
-    double new_y = x * sin(alpha) + y * cos(alpha);
-
-    point->x = new_x + origin->x;
-    point->y = new_y + origin->y;
-    point->z = z + origin->z;
-
-    return point;
-}
-
 Point *rotate_point_x(Point *point, Point *origin, double alpha) {
     double x_delta_from_origin_reference = point->x - origin->x;
     double y_delta_from_origin_reference = point->y - origin->y;

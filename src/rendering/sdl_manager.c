@@ -1,12 +1,11 @@
-#include "sdl_manager.h"
+#include "rendering/sdl_manager.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "debug.h"
+#include "utils/debug.h"
 
-// Initialize SDL
-int sdl_init()
+int sdl_init(void)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
@@ -18,7 +17,6 @@ int sdl_init()
     return 0;
 }
 
-// Quit SDL and free structures.
 void sdl_quit(SDL_Renderer *renderer, SDL_Window *window)
 {
     SDL_DestroyRenderer(renderer);
@@ -26,7 +24,6 @@ void sdl_quit(SDL_Renderer *renderer, SDL_Window *window)
     SDL_Quit();
 }
 
-// Dynamically allocating a SDL window.
 SDL_Window *create_window(int w, int h)
 {
     SDL_Window *window = SDL_CreateWindow("Cube", SDL_WINDOWPOS_CENTERED,
@@ -35,7 +32,6 @@ SDL_Window *create_window(int w, int h)
     return window;
 }
 
-// Dynamically allocating a SDL renderer and drawing it on screen.
 SDL_Renderer *create_renderer(SDL_Window *window)
 {
     SDL_Renderer *renderer =

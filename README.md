@@ -1,5 +1,5 @@
-# Better Rotating cube (and greener)
-This project is a cube
+# Better 3D Renderer Rotating cube (and greener )
+This project is a cube inside a window
 
 ## Installation
 ```sh
