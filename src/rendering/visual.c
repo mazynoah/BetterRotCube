@@ -57,7 +57,7 @@ void draw_triangle(SDL_Renderer *renderer, Triangle *triangle)
 
     intensity = intensity > 1 ? 1 : intensity;
 
-    SDL_Color color = { WHITE, 255 };
+    SDL_Color color = { GREEN, 255 };
     color.r *= intensity;
     color.g *= intensity;
     color.b *= intensity;

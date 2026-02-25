@@ -33,7 +33,6 @@ Point get_forward() {
 }
 
 Point *move_camera(Direction dir, double delta) {
-    Point world_up = { 0, 1, 0 };
     Point right = { 0, 1, 0 };
     Point forward = get_forward();
 

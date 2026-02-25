@@ -139,20 +139,20 @@ Point *project(Point *point) {
         fully_spelled_out_camera_position_not_cp
     );
 
-    Point *normalized_forward_vector_from_camera = vector_normalize(subtracted_look_ahead_minus_position);
+    Point normalized_forward_vector_from_camera = vector_normalize(subtracted_look_ahead_minus_position);
 
     Point *world_up_vector_absolute_reference = create_point(0.0, 1.0, 0.0);
 
-    Point *cross_product_of_world_up_and_forward = vector_cross(
+    Point cross_product_of_world_up_and_forward = vector_cross(
         world_up_vector_absolute_reference,
-        normalized_forward_vector_from_camera
+        &normalized_forward_vector_from_camera
     );
 
-    Point *normalized_right_vector_from_camera = vector_normalize(cross_product_of_world_up_and_forward);
+    Point normalized_right_vector_from_camera = vector_normalize(&cross_product_of_world_up_and_forward);
 
-    Point *up_vector_derived_from_forward_and_right = vector_cross(
-        normalized_forward_vector_from_camera,
-        normalized_right_vector_from_camera
+    Point up_vector_derived_from_forward_and_right = vector_cross(
+        &normalized_forward_vector_from_camera,
+        &normalized_right_vector_from_camera
     );
 
     Point *duplicated_target_point_p = dup_point(point);
@@ -162,19 +162,15 @@ Point *project(Point *point) {
     );
 
     double projected_x_dot_product_result = dot_product(relative_position_vector_from_camera,
-                                                        normalized_right_vector_from_camera);
+                                                        &normalized_right_vector_from_camera);
     double projected_y_dot_product_result = dot_product(relative_position_vector_from_camera,
-                                                        up_vector_derived_from_forward_and_right);
+                                                        &up_vector_derived_from_forward_and_right);
     double projected_z_dot_product_result = dot_product(relative_position_vector_from_camera,
-                                                        normalized_forward_vector_from_camera);
+                                                        &normalized_forward_vector_from_camera);
 
     free(fully_spelled_out_camera_position_not_cp);
     free(fully_spelled_out_camera_look_ahead_not_cl);
-    free(normalized_forward_vector_from_camera);
     free(world_up_vector_absolute_reference);
-    free(cross_product_of_world_up_and_forward);
-    free(normalized_right_vector_from_camera);
-    free(up_vector_derived_from_forward_and_right);
     free(duplicated_target_point_p);
 
     if (projected_z_dot_product_result < 0.01) {

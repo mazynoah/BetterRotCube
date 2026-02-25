@@ -26,7 +26,7 @@ void sdl_quit(SDL_Renderer *renderer, SDL_Window *window)
 
 SDL_Window *create_window(int w, int h)
 {
-    SDL_Window *window = SDL_CreateWindow("Cube", SDL_WINDOWPOS_CENTERED,
+    SDL_Window *window = SDL_CreateWindow("BetterCube", SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED, w, h, 0);
 
     return window;
