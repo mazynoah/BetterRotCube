@@ -37,5 +37,6 @@ Point *get_normal(Triangle *t)
     sub_point(&b, t->points[0]);
 
     Point normal = vector_cross(&a, &b);
+    normal = vector_normalize(&normal);
     return create_point(normal.x, normal.y, normal.z);
 }

@@ -1,5 +1,6 @@
 #include "rendering/visual.h"
 
+#include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_render.h>
 #include <stdlib.h>
 
@@ -7,6 +8,7 @@
 #include "geometry/triangle.h"
 #include "geometry/vector.h"
 #include "rendering/camera.h"
+#include "rendering/sdl_manager.h"
 
 void draw_links(SDL_Renderer *renderer, Vertex *vertex_a)
 {
@@ -43,10 +45,27 @@ void draw_triangle(SDL_Renderer *renderer, Triangle *triangle)
     if (!projection_a || !projection_b || !projection_c)
         goto exit;
 
+    Point world_light = { 0, -1, 1 };
+    world_light = vector_normalize(&world_light);
+    world_light = *scalar_product(&world_light, -1);
+
+    double intensity = dot_product(triangle->normal, &world_light);
+    intensity = intensity < 0 ? 0 : intensity;
+
+    double ambient = 0.1;
+    intensity += ambient;
+
+    intensity = intensity > 1 ? 1 : intensity;
+
+    SDL_Color color = { WHITE, 255 };
+    color.r *= intensity;
+    color.g *= intensity;
+    color.b *= intensity;
+
     SDL_Vertex vertices[3] = {
-        { { projection_a->x, projection_a->y }, { RED, 255 }, { 0.0f, 0.0f } },
-        { { projection_b->x, projection_b->y }, { RED, 255 }, { 0.0f, 0.0f } },
-        { { projection_c->x, projection_c->y }, { RED, 255 }, { 0.0f, 0.0f } },
+        { { projection_a->x, projection_a->y }, color, { 0.0f, 0.0f } },
+        { { projection_b->x, projection_b->y }, color, { 0.0f, 0.0f } },
+        { { projection_c->x, projection_c->y }, color, { 0.0f, 0.0f } },
     };
 
     SDL_RenderGeometry(renderer, NULL, vertices, 3, NULL, 0);
@@ -79,16 +98,10 @@ void draw_cube(SDL_Renderer *renderer, Cube *cube)
                             cube->vertices[triangles[i + 2]]->position);
         Point cp = *camera->position;
         sub_point(&cp, t->points[0]);
-        if (dot_product(&cp, t->normal) < 0)
+        if (dot_product(&cp, t->normal) > 0)
         {
             draw_triangle(renderer, t);
         }
         destroy_triangle(t);
-    }
-
-    SDL_SetRenderDrawColor(renderer, BLACK, 255);
-    for (int i = 0; i < 8; i++)
-    {
-        draw_links(renderer, cube->vertices[i]);
     }
 }
